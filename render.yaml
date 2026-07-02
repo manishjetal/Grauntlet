@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: gauntlet
+    runtime: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python alpaca_proxy.py --host 0.0.0.0 --port $PORT --dir ."
+    autoDeploy: true
