@@ -1,3 +1,6 @@
 # No third-party packages required — the proxy uses only the Python standard library.
 # (Optional) to enable delayed India charts, uncomment the next line:
 # yfinance
+mcp
+fastmcp
+
