@@ -3,4 +3,5 @@
 # yfinance
 mcp
 fastmcp
-
+requests
+pyotp
