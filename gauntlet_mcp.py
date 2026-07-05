@@ -13,7 +13,7 @@ FY_ID        = os.environ.get("FYERS_ID")
 APP_ID       = os.environ.get("FYERS_APP_ID")
 APP_SECRET   = os.environ.get("FYERS_APP_SECRET")
 PIN          = os.environ.get("FYERS_PIN")
-TOTP_SECRET  = os.environ.get("FYERS_TOTP_SECRET")
+TOTP_SECRET  = os.environ.get("FYERS_TOTP_SECRET", "").strip().replace(" ", "").replace("-", "").upper()
 REDIRECT_URI = os.environ.get("FYERS_REDIRECT_URI", "https://127.0.0.1")
 
 RENDER_API_KEY      = os.environ.get("RENDER_API_KEY")
