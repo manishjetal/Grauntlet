@@ -98,9 +98,12 @@ def refresh_fyers_token() -> str:
         r4 = requests.post("https://api-t1.fyers.in/api/v3/token", json=payload, headers=headers)
         r4.raise_for_status()
         r4_data = r4.json()
-        if "Url" not in r4_data:
-            return json.dumps({"ok": False, "error": f"fyers /token step returned no Url: {r4_data}"})
-        auth_code = r4_data["Url"].split("auth_code=")[1].split("&")[0]
+        if "Url" in r4_data:
+            auth_code = r4_data["Url"].split("auth_code=")[1].split("&")[0]
+        elif "data" in r4_data and "auth" in r4_data["data"]:
+            auth_code = r4_data["data"]["auth"]
+        else:
+            return json.dumps({"ok": False, "error": f"fyers /token step: unrecognized response shape: {r4_data}"})
 
         app_id_hash = hashlib.sha256(f"{APP_ID}:{APP_SECRET}".encode()).hexdigest()
         r5 = requests.post("https://api-t1.fyers.in/api/v3/validate-authcode", json={
