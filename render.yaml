@@ -4,5 +4,5 @@ services:
     runtime: python
     plan: free
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "python alpaca_proxy.py --host 0.0.0.0 --port $PORT --dir ."
+    startCommand: "python gauntlet_mcp.py"
     autoDeploy: true
