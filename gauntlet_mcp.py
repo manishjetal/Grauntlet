@@ -37,7 +37,24 @@ def roll_dice(sides: int = 6) -> int:
 @mcp.tool()
 def get_india_status() -> str:
     """Check whether Fyers/Upstox tokens are configured and ready"""
-    return json.dumps(_get("/india/status"))
+    import base64, datetime
+    status = {"fyers_configured": all([FY_ID, APP_ID, APP_SECRET, PIN, TOTP_SECRET])}
+    tok = os.environ.get("FYERS_ACCESS_TOKEN", "")
+    if not tok:
+        status["fyers_access_token"] = {"present": False}
+    else:
+        try:
+            p = tok.split(".")[1]; p += "=" * (-len(p) % 4)
+            exp = datetime.datetime.fromtimestamp(
+                json.loads(base64.urlsafe_b64decode(p))["exp"])
+            status["fyers_access_token"] = {
+                "present": True,
+                "expires": exp.strftime("%d-%b %H:%M"),
+                "expired": exp < datetime.datetime.now()
+            }
+        except Exception:
+            status["fyers_access_token"] = {"present": True, "expires": "unparseable"}
+    return json.dumps(status)
 
 
 @mcp.tool()
